@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class Profile_History extends Model
 {
     protected $guarded = array('id');
     public static $rules = array(
@@ -13,9 +13,4 @@ class Profile extends Model
         'hobby' => 'required',
         'introduction' => 'required',
         );
-        
-  public function profile_histories()
-    {
-      return $this->hasMany('App\Profile_History');
-    }
 }
