@@ -33,10 +33,16 @@ class ProfileController extends Controller
         return redirect('admin/profile/create');
     }
 
-    public function edit()
+    public function edit(Request $request)
     {
-        return view('admin.profile.edit');
-    }
+         $profiles = Profile::find($request->id);
+      if (empty($profiles)) {
+        abort(404);    // ⬅︎Not Foundページを表示
+      }
+      return view('admin.profile.edit', ['profile_form' => $profiles]);
+  }
+
+    
 
     public function update()
     {
@@ -44,29 +50,21 @@ class ProfileController extends Controller
          // Validationをかける
       $this->validate($request, Profile::$rules);
       // Profile Modelからデータを取得する
-      $profile = Profile::find($request->id);
+      $profiles = Profile::find($request->id);
       // 送信されてきたフォームデータを格納する
       $profile_form = $request->all();
-       if ($request->remove == 'true') {
-          $profile_form['image_path'] = null;
-      } elseif ($request->file('image')) {
-          $path = $request->file('image')->store('public/image');
-          $profile_form['image_path'] = basename($path);
-      } else {
-          $profile_form['image_path'] = $profile->image_path;
-      }
+     
 
-      unset($profile_form['image']);
       unset($profile_form['remove']);
       unset($profile_form['_token']);
-      unset($profile_form['_token']);
+      
 
       // 該当するデータを上書きして保存する
-      $profile->fill($profile_form)->save();
+      $profiles->fill($profile_form)->save();
       
       //Profile Modelを保存するタイミングで、同時にProfile_History Modelにも編集履歴を追加するよう実装
        $profile_history = new Profile_History;
-        $profile_history->profile_id = $profile->id;
+        $profile_history->profile_id = $profiles->id;
         $profile_history->edited_at = Carbon::now();
         $profile_history->save();
 
