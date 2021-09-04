@@ -43,7 +43,7 @@ class NewsController extends Controller
       $news->save();
      
       // admin/news/createにリダイレクトする
-      return redirect('admin/news/create');
+      return redirect('admin/news/');
   }  
   //ニュース投稿画面を表示するためのindexアクションを追加
   public function index(Request $request)
@@ -97,7 +97,7 @@ class NewsController extends Controller
       $news->fill($news_form)->save();
       
       //News Modelを保存するタイミングで、同時にHistory Modelにも編集履歴を追加するよう実装
-       $history = new History;
+        $history = new History;
         $history->news_id = $news->id;
         $history->edited_at = Carbon::now();
         $history->save();

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Profile;
-use App\Profile_History;
+use App\ProfileHistory;
 use Carbon\Carbon;
 
 class ProfileController extends Controller
@@ -30,7 +30,7 @@ class ProfileController extends Controller
       // データベースに保存する
       $profiles->fill($form);
       $profiles->save();
-        return redirect('admin/profile/create');
+        return redirect('admin/profile/');
     }
 
     public function edit(Request $request)
@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
     
 
-    public function update()
+    public function update(Request $request)
     {
         
          // Validationをかける
@@ -62,14 +62,40 @@ class ProfileController extends Controller
       // 該当するデータを上書きして保存する
       $profiles->fill($profile_form)->save();
       
-      //Profile Modelを保存するタイミングで、同時にProfile_History Modelにも編集履歴を追加するよう実装
-       $profile_history = new Profile_History;
+      //Profile Modelを保存するタイミングで、同時にProfileHistory Modelにも編集履歴を追加するよう実装
+       $profile_history = new ProfileHistory;
         $profile_history->profile_id = $profiles->id;
         $profile_history->edited_at = Carbon::now();
         $profile_history->save();
 
 
     
-        return redirect('admin/profile/edit');
+        return redirect('admin/profile/');
     }
+    
+     public function index(Request $request)
+  {
+      $cond_title = $request->cond_title;
+      if ($cond_title != '') {
+          // 検索されたら検索結果を取得する
+          $posts = Profile::where('name', $cond_title)->get();
+      } else {
+          // それ以外はすべてのプロフィールを取得する
+          $posts = Profile::all();
+      }
+      return view('admin.profile.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+  }
+  
+  
+  //Deleteアクションを追加
+   public function delete(Request $request)
+  {
+      // 該当するNews Modelを取得
+      $profiles = Profile::find($request->id);
+      // 削除する
+      $profiles->delete();
+      return redirect('admin/profile/');
+  }  
+
+  
 }
