@@ -18,25 +18,25 @@
                     <div class="form-group row">
                         <label class="col-md-2">氏名(name)</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                            <input type="text" class="form-control" name="name" value="{{ $profile_form->name }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2">性別(gender)</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="gender" value="{{ old('gender') }}">
+                            <input type="text" class="form-control" name="gender" value="{{ $profile_form->gender }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2">趣味(hobby)</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="hobby" value="{{ old('hobby') }}">
+                            <input type="text" class="form-control" name="hobby" value="{{ $profile_form->hobby}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2">自己紹介(introduction)</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" name="introduction" rows="15">{{ old('introduction') }}</textarea>
+                            <textarea class="form-control" name="introduction" rows="15">{{ $profile_form->introduction }}</textarea>
                         </div>
                     </div>
                    
