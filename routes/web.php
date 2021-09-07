@@ -30,7 +30,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::get('profile', 'Admin\ProfileController@index');
     Route::get('profile/delete', 'Admin\ProfileController@delete');
     
+    
+    
 });
+
+//追記Laravel19
+
+Route::get('/', 'NewsController@index');
+Route::get('/profile','ProfileController@index');
+
 
 Route::get('XXX','AAAController@bbb');
 
